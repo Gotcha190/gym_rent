@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'dart:async';
 
 late StreamSubscription<bool> keyboardSubscription;
@@ -38,20 +37,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  bool isKeyboardVisible = false;
-  @override
-  void initState() {
-    super.initState();
-    var keyboardVisibilityController = KeyboardVisibilityController();
-    keyboardSubscription =
-        keyboardVisibilityController.onChange.listen((bool isVisible) {
-      setState(() {
-        isKeyboardVisible = isVisible;
-        print(isKeyboardVisible);
-      });
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            // if (!isKeyboardVisible)
+             if (MediaQuery.of(context).viewInsets.bottom == 0.0)
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
@@ -80,27 +65,29 @@ class _MyHomePageState extends State<MyHomePage> {
                   height: 50.h,
                   width: 100.w,
                   color: const Color(0xFF848E95),
-                  child: Padding(
+                  child: ListView(
                     padding: EdgeInsets.only(top: 10.h, right: 5.w, left: 5.w),
-                    child: Column(
                       children: [
-                        Text(
-                          "Welcome",
-                          style: TextStyle(
-                              fontSize: 45.sp, color: const Color(0xFFFA9F56)),
+                        Center(
+                          child: Text(
+                            "Welcome",
+                            style: TextStyle(
+                                fontSize: 45.sp, color: const Color(0xFFFA9F56)),
+                          ),
                         ),
-                        Text(
-                          "Login to enjoy GymRent",
-                          style: TextStyle(
-                              fontSize: 12.sp, color: const Color(0xFFD9DCDE)),
+                        Center(
+                          child: Text(
+                            "Login to enjoy GymRent",
+                            style: TextStyle(
+                                fontSize: 12.sp, color: const Color(0xFFD9DCDE)),
+                          ),
                         ),
-                        SizedBox(height: 10.h),
+                         SizedBox(height: 5.h),
                         const TextField(
                           decoration: InputDecoration(
                             labelText: "Login",
                             filled: true,
                             fillColor: Color(0xFFD9DCDE),
-                            // contentPadding: EdgeInsets.all(15.0)
                           ),
                         ),
                         SizedBox(height: 5.h),
@@ -109,7 +96,6 @@ class _MyHomePageState extends State<MyHomePage> {
                             labelText: "Password",
                             filled: true,
                             fillColor: Color(0xFFD9DCDE),
-                            // contentPadding: EdgeInsets.all(15.0)
                           ),
                           obscureText: true, // Ukryj hasło
                         ),
@@ -166,7 +152,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
               ),
-            ),
           ],
         ),
       ),
