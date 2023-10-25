@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'dart:async';
+
+late StreamSubscription<bool> keyboardSubscription;
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +19,8 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           title: 'GymRent',
           theme: ThemeData(
-            primarySwatch: Colors.blue,
+            primarySwatch: Colors.orange,
+            fontFamily: 'KeaniaOne',
           ),
           home: const MyHomePage(title: 'GymRent'),
         );
@@ -33,6 +38,20 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  bool isKeyboardVisible = false;
+  @override
+  void initState() {
+    super.initState();
+    var keyboardVisibilityController = KeyboardVisibilityController();
+    keyboardSubscription =
+        keyboardVisibilityController.onChange.listen((bool isVisible) {
+      setState(() {
+        isKeyboardVisible = isVisible;
+        print(isKeyboardVisible);
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,71 +59,117 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                 Image.asset('assets/images/main_page_logo.png',
-                    width: 100.w,
-                    height: 70.w),
-                Text(
-                  'GymRent',
-                  style: TextStyle(
-                    fontSize: 60.sp,
+            // if (!isKeyboardVisible)
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Image.asset('assets/images/main_page_logo.png',
+                      width: 100.w, height: 40.w),
+                  Text(
+                    'GymRent',
+                    style: TextStyle(
+                      fontSize: 30.sp,
+                    ),
+                  ),
+                ],
+              ),
+            Expanded(
+              child: ClipPath(
+                clipper: WaveClipperTwo(reverse: true),
+                child: Container(
+                  height: 50.h,
+                  width: 100.w,
+                  color: const Color(0xFF848E95),
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 10.h, right: 5.w, left: 5.w),
+                    child: Column(
+                      children: [
+                        Text(
+                          "Welcome",
+                          style: TextStyle(
+                              fontSize: 45.sp, color: const Color(0xFFFA9F56)),
+                        ),
+                        Text(
+                          "Login to enjoy GymRent",
+                          style: TextStyle(
+                              fontSize: 12.sp, color: const Color(0xFFD9DCDE)),
+                        ),
+                        SizedBox(height: 10.h),
+                        const TextField(
+                          decoration: InputDecoration(
+                            labelText: "Login",
+                            filled: true,
+                            fillColor: Color(0xFFD9DCDE),
+                            // contentPadding: EdgeInsets.all(15.0)
+                          ),
+                        ),
+                        SizedBox(height: 5.h),
+                        const TextField(
+                          decoration: InputDecoration(
+                            labelText: "Password",
+                            filled: true,
+                            fillColor: Color(0xFFD9DCDE),
+                            // contentPadding: EdgeInsets.all(15.0)
+                          ),
+                          obscureText: true, // Ukryj hasło
+                        ),
+                        SizedBox(height: 5.h),
+                        SizedBox(
+                          width: double.infinity,
+                          height: 6.5.h,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              ///TODO: Login logic
+                            },
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                                  const Color(0xFFF77B00)),
+                            ),
+                            child: Text(
+                              "Login",
+                              style: TextStyle(
+                                  fontSize: 15.sp,
+                                  color: const Color(0xFFD9DCDE)),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 2.h),
+                        Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                ///TODO: Forget password page
+                              },
+                              child: Text(
+                                "Forget password?",
+                                style: TextStyle(
+                                    fontSize: 12.sp,
+                                    color: const Color(0xFFD9DCDE)),
+                              ),
+                            ),
+                            const Spacer(),
+                            GestureDetector(
+                              onTap: () {
+                                ///TODO: Creating account page
+                              },
+                              child: Text(
+                                "create new account",
+                                style: TextStyle(
+                                    fontSize: 12.sp,
+                                    color: const Color(0xFFF77B00)),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ],
-            ),
-            Expanded(
-              flex: 1,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    SizedBox(
-                      width: 100.w,
-                      height: 12.h,
-                      child: CustomPaint(
-                        painter: RoundedTrianglePainter(),
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        color: Colors.grey, // Kolor tła
-                      ),
-                    ),
-                  ],
-                ),
               ),
-            // Tutaj możesz dodać pola do logowania i przyciski
+            ),
           ],
         ),
       ),
     );
-  }
-}
-
-class RoundedTrianglePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final double width = size.width;
-    final double height = size.height;
-    final paint = Paint()
-      ..color = Colors.grey
-      ..style = PaintingStyle.fill;
-    final path = Path()
-      ..moveTo((width / 2) - 16, 10)
-      ..arcToPoint(
-        Offset((width / 2) + 16, 10),
-        radius: const Radius.circular(40),
-        clockwise: true,
-      )
-      ..lineTo(width, height)
-      ..lineTo(0, height)
-      ..close();
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return false;
   }
 }

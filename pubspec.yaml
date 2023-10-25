@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   sizer: ^2.0.15
   flutter_custom_clippers: ^2.1.0
+  flutter_keyboard_visibility: ^5.4.1
 
 dev_dependencies:
   flutter_test:
@@ -90,3 +91,7 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+  fonts:
+    - family: KeaniaOne
+      fonts:
+        - asset: assets/fonts/KeaniaOne-Regular.ttf
