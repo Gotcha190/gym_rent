@@ -1,9 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-import 'package:gym_rent/user_auth/pages/forget_pwd.dart';
-import 'package:gym_rent/user_auth/pages/login_page.dart';
 import 'package:gym_rent/user_auth/pages/sign_up_page.dart';
 import 'package:sizer/sizer.dart';
+
+import 'forget_pwd.dart';
+import 'login_page.dart';
 
 class AuthenticationScreen extends StatefulWidget {
   const AuthenticationScreen({super.key});
@@ -15,6 +17,23 @@ class AuthenticationScreen extends StatefulWidget {
 class _AuthenticationScreenState extends State<AuthenticationScreen> {
   bool showLoginPage = true;
   bool showForgetPwd = false;
+
+  @override
+  void initState() {
+    super.initState();
+    checkUserLoggedIn();
+  }
+
+  Future<void> checkUserLoggedIn() async {
+    // Sprawdzenie, czy użytkownik jest zalogowany
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      // Użytkownik jest zalogowany, więc go wyloguj
+      await FirebaseAuth.instance.signOut();
+    }
+  }
+
   void navigateToSignup() {
     setState(() {
       showLoginPage = false;

@@ -1,10 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:gym_rent/pages/attendees.dart';
+import 'package:gym_rent/pages/my_classes.dart';
+import 'package:gym_rent/pages/schedule.dart';
+import 'package:gym_rent/pages/settings.dart';
 import 'package:gym_rent/user_auth/pages/authentication_page.dart';
 import 'package:sizer/sizer.dart';
-import 'package:gym_rent/user_auth/pages/login_page.dart';
-import 'package:gym_rent/user_auth/pages/sign_up_page.dart';
-import 'package:gym_rent/user_auth/pages/forget_pwd.dart';
 import 'package:gym_rent/pages/homepage.dart';
 import 'firebase_options.dart';
 
@@ -18,7 +19,7 @@ void main() async {
     name: 'GymRent',
   );
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -37,8 +38,11 @@ class MyApp extends StatelessWidget {
           ),
           routes: {
             '/': (ctx) => const AuthenticationScreen(),
-            // '/forget_pwd': (ctx) => const ForgetPwd(),
             '/home': (ctx) => const HomePage(),
+            '/schedule': (ctx) => const Schedule(),
+            '/my_classes': (ctx) => const MyClasses(),
+            '/attendees': (ctx) => const Attendees(),
+            '/settings': (ctx) => const Settings(),
           },
         );
       },
