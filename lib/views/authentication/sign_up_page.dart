@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:gym_rent/user_auth/firebase_auth/firebase_auth_services.dart';
+import 'package:gym_rent/constants/colorPalette.dart';
+import 'package:gym_rent/services/firebase_auth/firebase_auth_services.dart';
 import 'package:sizer/sizer.dart';
 
 class SignUpPage extends StatefulWidget{
@@ -29,21 +30,21 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: const Color(0xFF848E95),
+      color: ColorPalette.secondary,
       child: Column(
         children: [
           Center(
             child: Text(
               "Sign Up",
               style: TextStyle(
-                  fontSize: 45.sp, color: const Color(0xFFFA9F56)),
+                  fontSize: 45.sp, color: ColorPalette.highlight),
             ),
           ),
           Center(
             child: Text(
               "Sign Up to enjoy GymRent",
               style: TextStyle(
-                  fontSize: 12.sp, color: const Color(0xFFD9DCDE)),
+                  fontSize: 12.sp, color: ColorPalette.primary),
             ),
           ),
           SizedBox(height: 5.h),
@@ -53,7 +54,7 @@ class _SignUpPageState extends State<SignUpPage> {
               labelText: "Email",
               prefixIcon: Icon(Icons.mail),
               filled: true,
-              fillColor: Color(0xFFD9DCDE),
+              fillColor: ColorPalette.primary,
             ),
           ),
 
@@ -64,7 +65,7 @@ class _SignUpPageState extends State<SignUpPage> {
             labelText: "Password",
             prefixIcon: Icon(Icons.lock),
             filled: true,
-            fillColor: Color(0xFFD9DCDE),
+            fillColor: ColorPalette.primary,
           ),
           obscureText: true, // Hide password
         ),
@@ -76,13 +77,13 @@ class _SignUpPageState extends State<SignUpPage> {
             onPressed: _signUp,
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(
-                  const Color(0xFFF77B00)),
+                  ColorPalette.highlight),
             ),
             child: Text(
               "Sign Up",
               style: TextStyle(
                   fontSize: 15.sp,
-                  color: const Color(0xFFD9DCDE)),
+                  color: ColorPalette.primary),
             ),
           ),
         ),
@@ -94,13 +95,13 @@ class _SignUpPageState extends State<SignUpPage> {
             onPressed: widget.navigateToLogin,
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(
-                  const Color(0xFFD9DCDE)),
+                  ColorPalette.primary),
             ),
             child: Text(
               "Go back",
               style: TextStyle(
                   fontSize: 15.sp,
-                  color: const Color(0xFFF77B00)),
+                  color: ColorPalette.highlight),
             ),
           ),
         ),

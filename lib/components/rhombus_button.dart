@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gym_rent/constants/colorPalette.dart';
 import 'package:sizer/sizer.dart';
 
 class RhombusButton extends StatelessWidget {
@@ -28,12 +29,12 @@ class RhombusButton extends StatelessWidget {
               Icon(
                 icon,
                 size: 50.sp,
-                color: Color(0xFFF8913A),
+                color: ColorPalette.highlight,
               ),
               const SizedBox(height: 5),
               Text(
                 text,
-                style: TextStyle(fontSize: 12.sp, color: const Color(0xFFF8913A)),
+                style: TextStyle(fontSize: 12.sp, color: ColorPalette.highlight),
               ),
             ],
           ),
@@ -46,7 +47,7 @@ class RhombusButton extends StatelessWidget {
 class RhombusPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final Paint paint = Paint()..color = Colors.white;
+    final Paint paint = Paint()..color = ColorPalette.primary;
 
     final double halfWidth = size.width / 2;
     final double halfHeight = size.height / 2;

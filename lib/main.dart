@@ -1,24 +1,21 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:gym_rent/pages/attendees.dart';
-import 'package:gym_rent/pages/my_classes.dart';
-import 'package:gym_rent/pages/schedule.dart';
-import 'package:gym_rent/pages/settings.dart';
-import 'package:gym_rent/user_auth/pages/authentication_page.dart';
+import 'package:gym_rent/views/attendees.dart';
+import 'package:gym_rent/views/my_classes.dart';
+import 'package:gym_rent/views/schedule.dart';
+import 'package:gym_rent/views/settings.dart';
+import 'package:gym_rent/views/authentication/authentication_page.dart';
 import 'package:sizer/sizer.dart';
-import 'package:gym_rent/pages/homepage.dart';
-import 'firebase_options.dart';
-
+import 'package:gym_rent/views/homepage.dart';
+import 'services/firebase_auth/firebase_options.dart';
 
 void main() async {
   // Zainicjuj Firebase przed uruchomieniem aplikacji
   WidgetsFlutterBinding.ensureInitialized(); // To jest ważne dla Firebase
-
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
     name: 'GymRent',
   );
-
   runApp(const MyApp());
 }
 
@@ -37,7 +34,9 @@ class MyApp extends StatelessWidget {
             fontFamily: 'KeaniaOne',
           ),
           routes: {
+            ///TODO: Set back autentication after testing!!!
             '/': (ctx) => const AuthenticationScreen(),
+            // '/': (ctx) => const Schedule(),
             '/home': (ctx) => const HomePage(),
             '/schedule': (ctx) => const Schedule(),
             '/my_classes': (ctx) => const MyClasses(),

@@ -4,6 +4,7 @@ import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:sizer/sizer.dart';
 
 import '../components/rhombus_button.dart';
+import '../constants/colorPalette.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -67,7 +68,7 @@ class HomePage extends StatelessWidget {
                 child: Container(
                   height: 90.h,
                   width: 100.w,
-                  color: const Color(0xFF848E95),
+                  color: ColorPalette.secondary,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 70.0),
                     child: Column(
@@ -84,7 +85,7 @@ class HomePage extends StatelessWidget {
                               TextSpan(
                                 text: 'Username', // TODO: Add user name to homepage from Firebase
                                 style: TextStyle(
-                                  color: Color(0xFFF8913A),
+                                  color: ColorPalette.highlight,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),

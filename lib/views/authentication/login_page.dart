@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:gym_rent/user_auth/firebase_auth/firebase_auth_services.dart';
+import 'package:gym_rent/constants/colorPalette.dart';
+import 'package:gym_rent/services/firebase_auth/firebase_auth_services.dart';
 import 'package:sizer/sizer.dart';
 
 class LoginPage extends StatefulWidget {
@@ -31,19 +32,19 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: const Color(0xFF848E95),
+      color: ColorPalette.secondary,
       child: Column(
         children: [
           Center(
             child: Text(
               "Welcome",
-              style: TextStyle(fontSize: 45.sp, color: const Color(0xFFFA9F56)),
+              style: TextStyle(fontSize: 45.sp, color: ColorPalette.highlight),
             ),
           ),
           Center(
             child: Text(
               "Login to enjoy GymRent",
-              style: TextStyle(fontSize: 12.sp, color: const Color(0xFFD9DCDE)),
+              style: TextStyle(fontSize: 12.sp, color: ColorPalette.primary),
             ),
           ),
           SizedBox(height: 5.h),
@@ -53,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
               labelText: "Email",
               prefixIcon: Icon(Icons.mail),
               filled: true,
-              fillColor: Color(0xFFD9DCDE),
+              fillColor: ColorPalette.primary,
             ),
           ),
           SizedBox(height: 5.h),
@@ -63,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
               labelText: "Password",
               prefixIcon: Icon(Icons.lock),
               filled: true,
-              fillColor: Color(0xFFD9DCDE),
+              fillColor: ColorPalette.primary,
             ),
             obscureText: true, // Hide password
           ),
@@ -75,12 +76,12 @@ class _LoginPageState extends State<LoginPage> {
               onPressed: _signIn,
               style: ButtonStyle(
                 backgroundColor:
-                    MaterialStateProperty.all(const Color(0xFFF77B00)),
+                    MaterialStateProperty.all(ColorPalette.highlight),
               ),
               child: Text(
                 "Login",
                 style:
-                    TextStyle(fontSize: 15.sp, color: const Color(0xFFD9DCDE)),
+                    TextStyle(fontSize: 15.sp, color: ColorPalette.primary),
               ),
             ),
           ),
@@ -92,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Text(
                   "Forget password?",
                   style: TextStyle(
-                      fontSize: 12.sp, color: const Color(0xFFD9DCDE)),
+                      fontSize: 12.sp, color: ColorPalette.primary),
                 ),
               ),
               const Spacer(),
@@ -101,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Text(
                   "create new account",
                   style: TextStyle(
-                      fontSize: 12.sp, color: const Color(0xFFF77B00)),
+                      fontSize: 12.sp, color: ColorPalette.highlight),
                 ),
               ),
             ],

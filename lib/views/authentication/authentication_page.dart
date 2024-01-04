@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-import 'package:gym_rent/user_auth/pages/sign_up_page.dart';
+import 'package:gym_rent/views/authentication/sign_up_page.dart';
 import 'package:sizer/sizer.dart';
+import 'package:gym_rent/constants/colorPalette.dart';
 
 import 'forget_pwd.dart';
 import 'login_page.dart';
@@ -81,7 +82,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                 child: Container(
                   height: 50.h,
                   width: 100.w,
-                  color: const Color(0xFF848E95),
+                  color: ColorPalette.secondary,
                   child: ListView(
                     padding: EdgeInsets.only(top: 10.h, right: 5.w, left: 5.w),
                     children: [

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../constants/colorPalette.dart';
+
 class ForgetPwd extends StatefulWidget {
   final VoidCallback navigateToLogin;
   const ForgetPwd({super.key, required this.navigateToLogin});
@@ -14,7 +16,7 @@ class _ForgetPwdState extends State<ForgetPwd> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: const Color(0xFF848E95),
+      color: ColorPalette.secondary,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -23,12 +25,12 @@ class _ForgetPwdState extends State<ForgetPwd> {
               onPressed: widget.navigateToLogin,
               style: ButtonStyle(
                 backgroundColor:
-                MaterialStateProperty.all(const Color(0xFFF77B00)),
+                MaterialStateProperty.all(ColorPalette.highlight),
               ),
               child: Text(
                 "Go back",
                 style: TextStyle(
-                    fontSize: 15.sp, color: const Color(0xFFD9DCDE)),
+                    fontSize: 15.sp, color: ColorPalette.primary),
               )),
         ],
       ),
