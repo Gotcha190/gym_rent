@@ -14,10 +14,8 @@ class Event {
 
   factory Event.fromFirestore(DocumentSnapshot<Map<String, dynamic>> snapshot, [SnapshotOptions? options]) {
     final data = snapshot.data()!;
-    print("Timestamp from Firestore: ${data['date']}");
     final Timestamp timestamp = data['date'];
     final DateTime date = timestamp.toDate();
-    print("Converted DateTime: $date");
 
     return Event(
       date: date,

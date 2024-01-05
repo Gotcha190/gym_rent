@@ -1,15 +1,15 @@
 import 'dart:collection';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:gym_rent/constants/colorPalette.dart';
-
-import '../models/events_model.dart';
+import 'package:gym_rent/services/firestore/event_service.dart';
+import 'package:gym_rent/models/events_model.dart';
 
 class Calendar extends StatefulWidget {
   final DateTime? initialDate;
-  const Calendar({Key? key, this.initialDate}) : super(key: key);
+  final Function(List, DateTime)? onDaySelectedCallback;
+  const Calendar({Key? key, this.initialDate, this.onDaySelectedCallback})
+      : super(key: key);
 
   @override
   State<Calendar> createState() => _CalendarState();
@@ -22,6 +22,7 @@ class _CalendarState extends State<Calendar> {
   late DateTime _selectedDay;
   late CalendarFormat _calendarFormat;
   late Map<DateTime, List<Event>> _events;
+  late EventService _eventService;
 
   int getHashCode(DateTime key) {
     return key.day * 1000000 + key.month * 10000 + key.year;
@@ -30,6 +31,7 @@ class _CalendarState extends State<Calendar> {
   @override
   void initState() {
     super.initState();
+    _eventService = EventService();
     _events = LinkedHashMap<DateTime, List<Event>>(
       equals: isSameDay,
       hashCode: getHashCode,
@@ -44,39 +46,25 @@ class _CalendarState extends State<Calendar> {
     _loadFirestoreEvents();
   }
 
-  _loadFirestoreEvents() async {
-    try {
-      final snap = await FirebaseFirestore.instance
-          .collection('events')
-          .withConverter(
-        fromFirestore: Event.fromFirestore,
-        toFirestore: (Event event, options) => event.toFirestore(),
-      )
-          .get();
-
-      _events.clear();
-
-      for (var doc in snap.docs) {
-        final event = doc.data();
-        final day = DateTime.utc(event.date.year, event.date.month, event.date.day);
-        _events[day] = _events[day] ?? [];
-        _events[day]!.add(event);
-      }
-
-      setState(() {});
-    } catch (e) {
-      print("Error loading Firestore events: $e");
-    }
+  void _loadFirestoreEvents() async {
+    await _eventService.loadFirestoreEvents(
+        _selectedDay, _events, () => setState(() {}));
   }
 
-  List _getEventsForTheDay(DateTime day) {
-    return _events[day] ?? [];
+  void _reloadCalendar() {
+    setState(() {
+      _focusedDay = DateTime.now();
+      _firstDay = DateTime.now().subtract(const Duration(days: 1000));
+      _lastDay = DateTime.now().add(const Duration(days: 1000));
+      _selectedDay = DateTime.now();
+    });
+    _loadFirestoreEvents();
   }
 
   @override
   Widget build(BuildContext context) {
     return TableCalendar(
-      eventLoader: _getEventsForTheDay,
+      eventLoader:(day) => _eventService.getEventsForTheDay(_events, day),
       calendarFormat: _calendarFormat,
       startingDayOfWeek: StartingDayOfWeek.monday,
       focusedDay: _focusedDay,
@@ -86,14 +74,20 @@ class _CalendarState extends State<Calendar> {
         setState(() {
           _focusedDay = focusedDay;
         });
+        _loadFirestoreEvents();
       },
       selectedDayPredicate: (day) => isSameDay(day, _selectedDay),
       onDaySelected: (selectedDay, focusedDay) {
-        print("EVENT: ${_events[selectedDay]}");
         setState(() {
           _selectedDay = selectedDay;
           _focusedDay = focusedDay;
         });
+
+        if (widget.onDaySelectedCallback != null) {
+          List<Event> eventsForSelectedDay =
+          _eventService.getEventsForTheDay(_events, selectedDay);
+          widget.onDaySelectedCallback!(eventsForSelectedDay, _selectedDay);
+        }
       },
       calendarStyle: const CalendarStyle(
         weekendTextStyle: TextStyle(
