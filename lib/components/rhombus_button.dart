@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gym_rent/constants/colorPalette.dart';
+import 'package:gym_rent/constants/color_palette.dart';
 import 'package:sizer/sizer.dart';
 
 class RhombusButton extends StatelessWidget {
@@ -15,7 +15,7 @@ class RhombusButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, route, arguments: route); // TODO: Delete arguments, just there for test purposes
+        Navigator.pushNamed(context, route, arguments: route);
       },
       child: Container(
         width: 20.h,

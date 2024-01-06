@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../constants/colorPalette.dart';
+import '../../constants/color_palette.dart';
 
 class ForgetPwd extends StatefulWidget {
   final VoidCallback navigateToLogin;

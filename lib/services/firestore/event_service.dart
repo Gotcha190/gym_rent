@@ -25,7 +25,7 @@ class EventService {
 
       for (var doc in snap.docs) {
         final event = doc.data();
-        final day = DateTime.utc(event.date.year, event.date.month, event.date.day);
+        final day = DateTime.utc(event.date.year, event.date.month, event.date.day, event.date.hour, event.date.minute);
         events[day] = events[day] ?? [];
         events[day]!.add(event);
       }

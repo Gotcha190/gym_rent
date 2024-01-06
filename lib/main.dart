@@ -2,12 +2,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_rent/views/attendees.dart';
 import 'package:gym_rent/views/my_classes.dart';
-import 'package:gym_rent/views/schedule.dart';
+import 'package:gym_rent/views/schedule/schedule.dart';
 import 'package:gym_rent/views/settings.dart';
 import 'package:gym_rent/views/authentication/authentication_page.dart';
 import 'package:sizer/sizer.dart';
 import 'package:gym_rent/views/homepage.dart';
-import 'services/firebase_auth/firebase_options.dart';
+import 'package:gym_rent/services/firebase_options.dart';
 
 void main() async {
   // Zainicjuj Firebase przed uruchomieniem aplikacji
@@ -34,9 +34,7 @@ class MyApp extends StatelessWidget {
             fontFamily: 'KeaniaOne',
           ),
           routes: {
-            ///TODO: Set back autentication after testing!!!
             '/': (ctx) => const AuthenticationScreen(),
-            // '/': (ctx) => const Schedule(),
             '/home': (ctx) => const HomePage(),
             '/schedule': (ctx) => const Schedule(),
             '/my_classes': (ctx) => const MyClasses(),

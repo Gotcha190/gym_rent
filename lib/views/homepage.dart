@@ -1,10 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:sizer/sizer.dart';
 
 import '../components/rhombus_button.dart';
-import '../constants/colorPalette.dart';
+import '../constants/color_palette.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -81,7 +80,7 @@ class HomePage extends StatelessWidget {
                               fontSize: 25.sp,
                               fontFamily: 'KeaniaOne',
                             ),
-                            children: [
+                            children: const [
                               TextSpan(
                                 text: 'Username', // TODO: Add user name to homepage from Firebase
                                 style: TextStyle(

@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:gym_rent/constants/colorPalette.dart';
+import 'package:gym_rent/constants/color_palette.dart';
 import 'package:gym_rent/services/firebase_auth/firebase_auth_services.dart';
 import 'package:sizer/sizer.dart';
 

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:gym_rent/views/authentication/sign_up_page.dart';
 import 'package:sizer/sizer.dart';
-import 'package:gym_rent/constants/colorPalette.dart';
+import 'package:gym_rent/constants/color_palette.dart';
 
 import 'forget_pwd.dart';
 import 'login_page.dart';
