@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gym_rent/views/authentication/profile.dart';
 
 class Settings extends StatelessWidget {
   const Settings({super.key});
@@ -6,14 +8,16 @@ class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String receivedText = ModalRoute.of(context)!.settings.arguments as String;
-    final String text = receivedText.substring(1);
+    final String title = receivedText.substring(1);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(text),
+        title: Text(title),
       ),
-      body: Center(
-        child: Text(text),
+      body: const Column(
+        children: [
+          Expanded(child: ProfilePage()),
+        ],
       ),
     );
   }

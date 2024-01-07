@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:sizer/sizer.dart';
@@ -80,10 +81,10 @@ class HomePage extends StatelessWidget {
                               fontSize: 25.sp,
                               fontFamily: 'KeaniaOne',
                             ),
-                            children: const [
+                            children: [
                               TextSpan(
-                                text: 'Username', // TODO: Add user name to homepage from Firebase
-                                style: TextStyle(
+                                text: FirebaseAuth.instance.currentUser?.displayName ?? 'Username',
+                                style: const TextStyle(
                                   color: ColorPalette.highlight,
                                   fontWeight: FontWeight.bold,
                                 ),
