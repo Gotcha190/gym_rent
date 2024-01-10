@@ -15,7 +15,7 @@ class RhombusButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, route, arguments: route);
+        Navigator.pushNamed(context, route);
       },
       child: Container(
         width: 20.h,

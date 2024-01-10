@@ -5,9 +5,11 @@ import 'package:sizer/sizer.dart';
 
 import '../components/rhombus_button.dart';
 import '../constants/color_palette.dart';
+import '../services/firebase_auth/firebase_auth_services.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  final FirebaseAuthServices _auth = FirebaseAuthServices();
+  HomePage({super.key});
 
   IconData _getIconForButton(int index) {
     final icons = [
@@ -74,23 +76,37 @@ class HomePage extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        RichText(
-                          text: TextSpan(
-                            text: 'Hello, coach ',
-                            style: TextStyle(
-                              fontSize: 25.sp,
-                              fontFamily: 'KeaniaOne',
-                            ),
-                            children: [
-                              TextSpan(
-                                text: FirebaseAuth.instance.currentUser?.displayName ?? 'Username',
-                                style: const TextStyle(
-                                  color: ColorPalette.highlight,
-                                  fontWeight: FontWeight.bold,
+                        FutureBuilder<String?>(
+                          future: _auth.getUserRole(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState == ConnectionState.waiting) {
+                              return const CircularProgressIndicator();
+                            } else if (snapshot.hasError) {
+                              return Text('Error: ${snapshot.error}');
+                            } else {
+                              String role = snapshot.data ?? 'user';
+                              return RichText(
+                                text: TextSpan(
+                                  text: 'Hello, $role ',
+                                  style: TextStyle(
+                                    fontSize: 25.sp,
+                                    fontFamily: 'KeaniaOne',
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: FirebaseAuth
+                                          .instance.currentUser?.displayName ??
+                                          'Username',
+                                      style: const TextStyle(
+                                        color: ColorPalette.highlight,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
-                          ),
+                              );
+                            }
+                          },
                         ),
                         Expanded(
                           child: Stack(

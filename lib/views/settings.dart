@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_rent/views/authentication/profile.dart';
 
@@ -7,12 +6,10 @@ class Settings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String receivedText = ModalRoute.of(context)!.settings.arguments as String;
-    final String title = receivedText.substring(1);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Text("Settings"),
       ),
       body: const Column(
         children: [

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_rent/constants/color_palette.dart';
@@ -138,12 +139,33 @@ class _SignUpPageState extends State<SignUpPage> {
     String firstName = _firstNameController.text;
     String lastName = _lastNameController.text;
 
-    User? user = await _auth.signUpWithEmailAndPassword(email, password, UserProfile(firstName: firstName, lastName: lastName));
+    // Rejestracja użytkownika
+    User? user = await _auth.signUpWithEmailAndPassword(email, password, UserModel(
+      firstName: firstName,
+      lastName: lastName,
+      role: "user",
+    ));
 
     if (user != null) {
-      await Future.delayed(Duration.zero);
+      // Pobierz aktualny obiekt User po rejestracji
+      User currentUser = FirebaseAuth.instance.currentUser!;
+
+      // Utwórz obiekt UserProfile z pobranym uid
+      UserModel userProfile = UserModel(
+        uid: currentUser.uid,
+        firstName: firstName,
+        lastName: lastName,
+        role: "user",
+      );
+
+      // Zaktualizuj dane w Firestore
+      await FirebaseFirestore.instance.collection('users').doc(currentUser.uid).set(
+          userProfile.toMap()
+      );
+
+      // Przejdź do kolejnego ekranu
       Navigator.pushNamed(context, "/home");
-    } else{
+    } else {
       print("Wszystkie pola muszą być wypełnione");
     }
   }

@@ -5,11 +5,15 @@ class Event {
   final String? description;
   final DateTime date;
   final String id;
+  final String? organizerId;
+  final List<String>? participants;
   Event({
     required this.title,
     this.description,
     required this.date,
     required this.id,
+    this.organizerId,
+    this.participants,
   });
 
   factory Event.fromFirestore(DocumentSnapshot<Map<String, dynamic>> snapshot, [SnapshotOptions? options]) {
@@ -22,6 +26,8 @@ class Event {
       title: data['title'],
       description: data['description'],
       id: snapshot.id,
+      organizerId: data['organizerId'] ?? "unknown",
+      participants: List<String>.from(data['participants']?? []),
     );
   }
 
@@ -29,7 +35,9 @@ class Event {
     return {
       "date": Timestamp.fromDate(date),
       "title": title,
-      "description": description
+      "description": description,
+      "organizerId": organizerId,
+      "participants": participants,
     };
   }
 }

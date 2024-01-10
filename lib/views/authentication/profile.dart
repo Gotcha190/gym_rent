@@ -7,7 +7,6 @@ import 'package:gym_rent/services/firebase_auth/firebase_auth_services.dart';
 import 'package:sizer/sizer.dart';
 
 class ProfilePage extends StatefulWidget {
-  // final VoidCallback navigateBack;
 
   const ProfilePage({Key? key}) : super(key: key);
 
@@ -18,7 +17,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   final FirebaseAuthServices _auth = FirebaseAuthServices();
   final List<TextEditingController> _controllers = [];
-  late UserProfile _userProfile;
+  late UserModel _userProfile;
   late bool _isLoading = true;
 
   @override
@@ -26,10 +25,12 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
     _loadUserProfile();
   }
-
+  //TODO: Move this!!!
   Future<void> _loadUserProfile() async {
     try {
       User? user = FirebaseAuth.instance.currentUser;
+      String? userRole = await _auth.getUserRole();
+      print(userRole);
       if (user != null) {
         // Pobieranie informacji o użytkowniku z bazy danych, na przykład Firestore
         DocumentSnapshot<Map<String, dynamic>> snapshot =
@@ -41,7 +42,7 @@ class _ProfilePageState extends State<ProfilePage> {
         // Tworzenie kontrolerów tekstowych i aktualizacja danych w kontrolerach
         if (snapshot.exists) {
           setState(() {
-            _userProfile = UserProfile.fromMap(snapshot.data() ?? {});
+            _userProfile = UserModel.fromMap(snapshot.data() ?? {});
             _controllers.clear();
             for (var field in _userProfile.toMap().keys) {
               _controllers.add(TextEditingController(
@@ -190,7 +191,6 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   String _getFieldName(int index) {
-    print(_userProfile.toMap().keys.elementAt(index - 1));
     return _userProfile.toMap().keys.elementAt(index - 1);
   }
 }

@@ -1,8 +1,10 @@
-class UserProfile {
+class UserModel {
+  String? uid;
   String firstName;
   String lastName;
+  String role;
 
-  UserProfile({required this.firstName, required this.lastName});
+  UserModel({this.uid,required this.firstName, required this.lastName, this.role = 'user'});
 
   // Metoda do konwersji modelu na mapę
   Map<String, dynamic> toMap() {
@@ -13,10 +15,14 @@ class UserProfile {
   }
 
   // Metoda do tworzenia modelu z mapy
-  factory UserProfile.fromMap(Map<String, dynamic> map) {
-    return UserProfile(
+  factory UserModel.fromMap(Map<String, dynamic> map) {
+    return UserModel(
+      uid: map['uid'] ?? '',
       firstName: map['firstName'] ?? '',
       lastName: map['lastName'] ?? '',
     );
+  }
+  String getUserId() {
+    return uid ?? '';
   }
 }

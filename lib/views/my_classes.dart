@@ -5,15 +5,13 @@ class MyClasses extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String receivedText = ModalRoute.of(context)!.settings.arguments as String;
-    final String text = receivedText.substring(1);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(text),
+        title: const Text("My Classes"),
       ),
-      body: Center(
-        child: Text(text),
+      body: const Center(
+        child: Text("Create this page"),
       ),
     );
   }

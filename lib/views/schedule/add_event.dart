@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_rent/constants/color_palette.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
@@ -17,6 +18,7 @@ class _AddEventState extends State<AddEvent> {
   late DateTime _selectedDateTime;
   final _titleController = TextEditingController();
   final _descController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   void initState() {
@@ -29,8 +31,7 @@ class _AddEventState extends State<AddEvent> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Add Event", style: TextStyle(color: ColorPalette.primary)),
-        backgroundColor: ColorPalette.highlight,
+        title: const Text("Add Event"),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
@@ -97,6 +98,7 @@ class _AddEventState extends State<AddEvent> {
       "title": title,
       "description": description,
       "date": Timestamp.fromDate(_selectedDateTime),
+      "organizerId": _auth.currentUser!.uid
     });
 
     if (mounted) {

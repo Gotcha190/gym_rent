@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:gym_rent/constants/color_palette.dart';
 import 'package:gym_rent/views/attendees.dart';
 import 'package:gym_rent/views/my_classes.dart';
 import 'package:gym_rent/views/schedule/schedule.dart';
@@ -24,18 +25,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final MaterialColor customSwatch =
+        createMaterialColor(ColorPalette.highlight);
     return Sizer(
       builder: (context, orientation, deviceType) {
         return MaterialApp(
           initialRoute: '/',
           title: 'GymRent',
           theme: ThemeData(
-            primarySwatch: Colors.orange,
+            primarySwatch: customSwatch,
             fontFamily: 'KeaniaOne',
+            appBarTheme: const AppBarTheme(
+              foregroundColor: ColorPalette.primary,
+            ),
           ),
           routes: {
             '/': (ctx) => const AuthenticationScreen(),
-            '/home': (ctx) => const HomePage(),
+            '/home': (ctx) => HomePage(),
             '/schedule': (ctx) => const Schedule(),
             '/my_classes': (ctx) => const MyClasses(),
             '/attendees': (ctx) => const Attendees(),
@@ -44,5 +50,22 @@ class MyApp extends StatelessWidget {
         );
       },
     );
+  }
+  MaterialColor createMaterialColor(Color color) {
+    List<int> strengths = <int>[50, 100, 200, 300, 400, 500, 600, 700, 800, 900];
+    Map<int, Color> swatch = <int, Color>{};
+    final int r = color.red, g = color.green, b = color.blue;
+
+    for (int strength in strengths) {
+      final double ds = strength / 900.0;
+      swatch[strength] = Color.fromRGBO(
+        r + ((color.red - r) * ds).round(),
+        g + ((color.green - g) * ds).round(),
+        b + ((color.blue - b) * ds).round(),
+        1,
+      );
+    }
+
+    return MaterialColor(color.value, swatch);
   }
 }

@@ -6,7 +6,7 @@ class FirebaseAuthServices {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<User?> signUpWithEmailAndPassword(
-      String email, String password, UserProfile userProfile) async {
+      String email, String password, UserModel userProfile) async {
     try {
       UserCredential credential = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
@@ -14,8 +14,10 @@ class FirebaseAuthServices {
 
       await FirebaseFirestore.instance.collection('users').doc(credential.user?.uid).set(
           {
+            'uid': credential.user?.uid,
             'firstName': userProfile.firstName,
             'lastName': userProfile.lastName,
+            'role': userProfile.role,
           });
 
       return credential.user;
@@ -37,7 +39,7 @@ class FirebaseAuthServices {
     return null;
   }
 
-  Future<void> updateProfile(UserProfile userProfile) async {
+  Future<void> updateProfile(UserModel userProfile) async {
     try {
       User? user = _auth.currentUser;
 
@@ -49,6 +51,7 @@ class FirebaseAuthServices {
         await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
           'firstName': userProfile.firstName,
           'lastName': userProfile.lastName,
+          'role': userProfile.role
         });
 
         // Ponowne wczytanie danych użytkownika po aktualizacji
@@ -58,5 +61,25 @@ class FirebaseAuthServices {
     } catch (e) {
       print("Błąd aktualizacji profilu: $e");
     }
+  }
+
+  Future<String?> getUserRole() async {
+    String? role;
+
+    // Pobierz aktualnego użytkownika
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      // Pobierz dane użytkownika z Firestore
+      DocumentSnapshot<Map<String, dynamic>> snapshot =
+      await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+
+      // Sprawdź, czy dokument istnieje
+      if (snapshot.exists) {
+        role = snapshot.data()?['role'];
+      }
+    }
+
+    return role;
   }
 }
