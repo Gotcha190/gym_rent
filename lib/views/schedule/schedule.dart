@@ -1,7 +1,7 @@
 import 'dart:collection';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:gym_rent/components/event_item.dart';
+import 'package:gym_rent/widgets/event_item.dart';
 import 'package:gym_rent/services/firebase_auth/firebase_auth_services.dart';
 import 'package:gym_rent/views/schedule/add_event.dart';
 import 'package:gym_rent/views/schedule/edit_event.dart';
@@ -85,7 +85,6 @@ class _ScheduleState extends State<Schedule> {
               onPageChanged: (focusedDay) {
                 setState(() {
                   _focusedDay = focusedDay;
-                  print(_focusedDay);
                 });
                 _loadFirestoreEvents();
               },

@@ -2,10 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:sizer/sizer.dart';
-
-import '../components/rhombus_button.dart';
-import '../constants/color_palette.dart';
-import '../services/firebase_auth/firebase_auth_services.dart';
+import 'package:gym_rent/widgets/rhombus_button.dart';
+import 'package:gym_rent/constants/color_palette.dart';
+import 'package:gym_rent/services/firebase_auth/firebase_auth_services.dart';
 
 class HomePage extends StatelessWidget {
   final FirebaseAuthServices _auth = FirebaseAuthServices();
