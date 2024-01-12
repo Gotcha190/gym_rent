@@ -38,8 +38,12 @@ class UserService {
     }
   }
 
-  static Future<UserModel?> getUserById(String uid) async {
+  static Future<UserModel?> getUserById(String? uid) async {
     try {
+      if (uid == null) {
+        // Handle the case where uid is null, e.g., return a default user or null
+        return null;
+      }
       DocumentSnapshot userSnapshot = await FirebaseFirestore.instance.collection('users').doc(uid).get();
 
       if (userSnapshot.exists) {

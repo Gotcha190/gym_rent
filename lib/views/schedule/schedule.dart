@@ -134,7 +134,12 @@ class _ScheduleState extends State<Schedule> {
                           event: event,
                           onTap: () async {
                             if (_userRole == 'user') {
-                              final res = await Navigator.push(context, MaterialPageRoute(builder: (_) => ShowEvent(event: event)));
+                              showModalBottomSheet(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return ShowEvent(event: event);
+                                },
+                              );
                             } else {
                               final res = await Navigator.push<bool>(
                                 context,

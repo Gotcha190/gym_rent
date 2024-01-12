@@ -4,13 +4,13 @@ import 'package:gym_rent/models/events_model.dart';
 
 class EventItem extends StatelessWidget {
   final Event event;
-  final Function() onDelete;
+  final Function()? onDelete;
   final Function()? onTap;
   final bool canDelete;
   const EventItem({
     Key? key,
     required this.event,
-    required this.onDelete,
+    this.onDelete,
     this.onTap,
     required this.canDelete,
   }) : super(key: key);
