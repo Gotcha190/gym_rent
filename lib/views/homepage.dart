@@ -6,9 +6,30 @@ import 'package:gym_rent/widgets/rhombus_button.dart';
 import 'package:gym_rent/constants/color_palette.dart';
 import 'package:gym_rent/services/firebase_auth/firebase_auth_services.dart';
 
-class HomePage extends StatelessWidget {
-  final FirebaseAuthServices _auth = FirebaseAuthServices();
+class HomePage extends StatefulWidget {
+
   HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final FirebaseAuthServices _auth = FirebaseAuthServices();
+  late String? _userRole = 'user';
+
+  Future<void> _loadUserRole() async {
+    _userRole = (await _auth.getUserRole())!;
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserRole();
+  }
 
   IconData _getIconForButton(int index) {
     final icons = [
@@ -23,12 +44,18 @@ class HomePage extends StatelessWidget {
   }
 
   String _getTextForButton(int index) {
+    if (_userRole == 'user' && index == 1) {
+      return 'Coaches';
+    }
     final texts = ['Schedule', 'Attendees', 'Logout', 'My Classes', 'Settings'];
 
     return texts[index];
   }
 
   String _getRouteForButton(int index) {
+    if (_userRole == 'user' && index == 1) {
+      return '/coaches';
+    }
     final routes = ['/schedule', '/attendees', '/', '/my_classes', '/settings'];
 
     return routes[index];
@@ -112,8 +139,8 @@ class HomePage extends StatelessWidget {
                             alignment: Alignment.center,
                             children: [
                               Positioned(
-                                top: 30,
-                                left: 60,
+                                top: 2.h,
+                                left: 15.w,
                                 child: Column(
                                   children: List.generate(
                                     3,
@@ -126,8 +153,8 @@ class HomePage extends StatelessWidget {
                                 ),
                               ),
                               Positioned(
-                                top: 120,
-                                left: 155,
+                                top: 13.h,
+                                left: 45.w,
                                 child: Column(
                                   children: List.generate(
                                     2,

@@ -9,6 +9,15 @@ class UserModel {
   // Metoda do konwersji modelu na mapę
   Map<String, dynamic> toMap() {
     return {
+      'firstName': firstName,
+      'lastName': lastName,
+      'role': role,
+      'uid': uid,
+    };
+  }
+
+  Map<String, dynamic> getFieldsNames() {
+    return {
       'First name': firstName,
       'Last name': lastName,
     };

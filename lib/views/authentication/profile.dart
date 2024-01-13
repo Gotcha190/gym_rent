@@ -25,12 +25,10 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
     _loadUserProfile();
   }
-  //TODO: Move this!!!
+
   Future<void> _loadUserProfile() async {
     try {
       User? user = FirebaseAuth.instance.currentUser;
-      String? userRole = await _auth.getUserRole();
-      print(userRole);
       if (user != null) {
         // Pobieranie informacji o użytkowniku z bazy danych, na przykład Firestore
         DocumentSnapshot<Map<String, dynamic>> snapshot =
@@ -91,23 +89,26 @@ class _ProfilePageState extends State<ProfilePage> {
     return SingleChildScrollView(
       child: Column(
         children: List.generate(
-          _controllers.length,
-          (index) {
+          _userProfile.getFieldsNames().length,
+              (index) {
+            String fieldName = _userProfile.getFieldsNames().keys.elementAt(index);
             return Column(
               children: [
                 ListTile(
                   title: Text(
-                    _getFieldName(index +
-                        1), // Możesz dostosować tekst w zależności od danych
+                    fieldName,
                     style: TextStyle(
-                        fontSize: 15.sp, color: ColorPalette.secondary),
+                      fontSize: 15.sp,
+                      color: ColorPalette.secondary,
+                    ),
                   ),
                   subtitle: Text(
-                    _controllers[index].text,
+                    _userProfile.getFieldsNames()[fieldName] ?? '',
                     style: TextStyle(
-                        fontSize: 18.sp, color: ColorPalette.highlight),
+                      fontSize: 18.sp,
+                      color: ColorPalette.highlight,
+                    ),
                   ),
-                  // tileColor: ColorPalette.secondary,
                 ),
                 const Divider(
                   color: ColorPalette.secondary,
@@ -139,12 +140,16 @@ class _ProfilePageState extends State<ProfilePage> {
             mainAxisSize: MainAxisSize.min,
             children: List.generate(
               _controllers.length,
-              (index) {
-                return TextField(
-                  controller: _controllers[index],
-                  decoration:
-                      InputDecoration(labelText: _getFieldName(index + 1)),
-                );
+                  (index) {
+                if (index < _userProfile.getFieldsNames().length) {
+                  String fieldName = _userProfile.getFieldsNames().keys.elementAt(index);
+                  return TextField(
+                    controller: _controllers[index],
+                    decoration: InputDecoration(labelText: fieldName),
+                  );
+                } else {
+                  return Container(); // Lub inny sposób obsługi, gdy index przekracza liczbę dostępnych etykiet
+                }
               },
             ),
           ),
@@ -190,7 +195,7 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  String _getFieldName(int index) {
-    return _userProfile.toMap().keys.elementAt(index - 1);
-  }
+  // String _getFieldName(int index) {
+  //   return _userProfile.toMap().keys.elementAt(index - 1);
+  // }
 }

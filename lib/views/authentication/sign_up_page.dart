@@ -147,19 +147,20 @@ class _SignUpPageState extends State<SignUpPage> {
     ));
 
     if (user != null) {
-      // Pobierz aktualny obiekt User po rejestracji
-      User currentUser = FirebaseAuth.instance.currentUser!;
+      // Wait for the user creation process to complete
+      await user.reload();
+      user = await FirebaseAuth.instance.currentUser;
 
       // Utwórz obiekt UserProfile z pobranym uid
       UserModel userProfile = UserModel(
-        uid: currentUser.uid,
+        uid: user!.uid,
         firstName: firstName,
         lastName: lastName,
         role: "user",
       );
 
       // Zaktualizuj dane w Firestore
-      await FirebaseFirestore.instance.collection('users').doc(currentUser.uid).set(
+      await FirebaseFirestore.instance.collection('users').doc(user.uid).set(
           userProfile.toMap()
       );
 

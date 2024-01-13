@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_rent/constants/color_palette.dart';
 import 'package:gym_rent/views/attendees.dart';
+import 'package:gym_rent/views/coaches.dart';
 import 'package:gym_rent/views/my_classes.dart';
 import 'package:gym_rent/views/schedule/schedule.dart';
 import 'package:gym_rent/views/settings.dart';
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
             '/schedule': (ctx) => const Schedule(),
             '/my_classes': (ctx) => const MyClasses(),
             '/attendees': (ctx) => const Attendees(),
+            '/coaches': (ctx) => const Coaches(),
             '/settings': (ctx) => const Settings(),
           },
         );

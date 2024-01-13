@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:gym_rent/widgets/delete_dialog.dart';
 import 'package:gym_rent/widgets/event_item.dart';
 import 'package:gym_rent/services/firebase_auth/firebase_auth_services.dart';
 import 'package:gym_rent/views/schedule/add_event.dart';
@@ -156,37 +157,13 @@ class _ScheduleState extends State<Schedule> {
                             }
                           },
                           onDelete: () async {
-                            final delete = await showDialog<bool>(
+                            bool? result = await showDialog<bool>(
                               context: context,
-                              builder: (_) => AlertDialog(
-                                title: const Text("Delete Event?",
-                                    style: TextStyle(
-                                        color: ColorPalette.secondary)),
-                                content: const Text(
-                                    "Are you sure you want to delete?",
-                                    style: TextStyle(
-                                        color: ColorPalette.secondary)),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () =>
-                                        Navigator.pop(context, false),
-                                    style: TextButton.styleFrom(
-                                      foregroundColor: ColorPalette.secondary,
-                                    ),
-                                    child: const Text("No"),
-                                  ),
-                                  TextButton(
-                                    onPressed: () =>
-                                        Navigator.pop(context, true),
-                                    style: TextButton.styleFrom(
-                                      foregroundColor: ColorPalette.highlight,
-                                    ),
-                                    child: const Text("Yes"),
-                                  ),
-                                ],
-                              ),
+                              builder: (BuildContext context) {
+                                return DeleteDialog(event: event);
+                              },
                             );
-                            if (delete ?? false) {
+                            if (result ?? false) {
                               await FirebaseFirestore.instance
                                   .collection('calendar')
                                   .doc(event.id)

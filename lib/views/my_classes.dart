@@ -1,9 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_rent/constants/color_palette.dart';
 import 'package:gym_rent/models/events_model.dart';
+import 'package:gym_rent/services/firebase_auth/firebase_auth_services.dart';
 import 'package:gym_rent/services/firestore/event_service.dart';
+import 'package:gym_rent/views/schedule/edit_event.dart';
 import 'package:gym_rent/views/schedule/show_event.dart';
+import 'package:gym_rent/widgets/delete_dialog.dart';
 import 'package:gym_rent/widgets/event_item.dart';
 import 'package:sizer/sizer.dart';
 
@@ -21,16 +25,38 @@ class _MyClassesState extends State<MyClasses>
   late List<Event> _pastEvents;
   late bool _isLoading = true;
   late TabController _tabController;
+  final FirebaseAuthServices _auth = FirebaseAuthServices();
+  late String? _userRole = 'user';
+
+  Future<void> _loadUserRole() async {
+    _userRole = (await _auth.getUserRole())!;
+    if (mounted) {
+      setState(() {});
+    }
+  }
 
   void _loadFirestoreEvents() async {
-    await _eventService.getUpcomingEventsForUser(
-        FirebaseAuth.instance.currentUser!.uid, _upcomingEvents, () {
-      setState(() {});
-    });
-    await _eventService.getPastEventsForUser(
-        FirebaseAuth.instance.currentUser!.uid, _pastEvents, () {
-      setState(() {});
-    });
+    final userUid = FirebaseAuth.instance.currentUser?.uid;
+    print(userUid);
+    print(_userRole);
+    if (_userRole == 'user') {
+      await _eventService.getUpcomingEventsForUser(userUid!, _upcomingEvents,
+          () {
+        setState(() {});
+      });
+      await _eventService.getPastEventsForUser(userUid!, _pastEvents, () {
+        setState(() {});
+      });
+    } else {
+      await _eventService
+          .getUpcomingEventsForOrganizer(userUid!, _upcomingEvents, () {
+        setState(() {});
+      });
+      await _eventService.getPastEventsForOrganizer(userUid!, _pastEvents, () {
+        setState(() {});
+      });
+    }
+
     _isLoading = false;
   }
 
@@ -41,7 +67,9 @@ class _MyClassesState extends State<MyClasses>
     _pastEvents = [];
     _eventService = EventService();
     _tabController = TabController(length: 2, vsync: this);
-    _loadFirestoreEvents();
+    _loadUserRole().then((_) {
+      _loadFirestoreEvents();
+    });
   }
 
   @override
@@ -75,8 +103,13 @@ class _MyClassesState extends State<MyClasses>
 
   Widget _buildEventsList(List<Event> events) {
     return events.isEmpty
-        ? const Center(
-            child: Text("No events for the user."),
+        ? const Column(
+            children: [
+              Text("Nothing to show there",
+                  style: TextStyle(color: ColorPalette.secondary)),
+              Text('Participate in event to be able to see them there',
+                  style: TextStyle(color: ColorPalette.secondary)),
+            ],
           )
         : ListView.builder(
             itemCount: events.length,
@@ -84,15 +117,47 @@ class _MyClassesState extends State<MyClasses>
               final event = events[index];
               return EventItem(
                 event: event,
-                onTap: () {
-                  showModalBottomSheet(
+                onTap: () async {
+                  if (_userRole == 'user') {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return ShowEvent(event: event);
+                      },
+                    );
+                  } else {
+                    final res = await Navigator.push<bool>(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => EditEvent(
+                            firstDate:
+                                event.date.subtract(const Duration(days: 100)),
+                            lastDate:
+                                event.date.subtract(const Duration(days: 100)),
+                            event: event),
+                      ),
+                    );
+                    if (res ?? false) {
+                      _loadFirestoreEvents();
+                    }
+                  }
+                },
+                onDelete: () async {
+                  bool? result = await showDialog<bool>(
                     context: context,
                     builder: (BuildContext context) {
-                      return ShowEvent(event: event);
+                      return DeleteDialog(event: event);
                     },
                   );
+                  if (result ?? false) {
+                    await FirebaseFirestore.instance
+                        .collection('calendar')
+                        .doc(event.id)
+                        .delete();
+                    _loadFirestoreEvents();
+                  }
                 },
-                canDelete: false,
+                canDelete: _userRole != 'user',
               );
             },
           );

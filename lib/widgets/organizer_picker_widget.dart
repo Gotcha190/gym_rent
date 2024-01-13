@@ -44,25 +44,29 @@ class _OrganizerPickerWidgetState extends State<OrganizerPickerWidget> {
                 width: double.infinity,
                 height: 200,
                 padding: const EdgeInsets.all(16),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: widget.coachUsers.map((user) {
-                      return ListTile(
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('${user.firstName} ${user.lastName}'),
-                            if (widget.selectedOrganizer != null &&
-                                user.uid == widget.selectedOrganizer!.uid)
-                              const Icon(Icons.check, color: ColorPalette.highlight),
-                          ],
-                        ),
-                        onTap: () {
-                          widget.onOrganizerSelected(user);
-                          Navigator.pop(context);
-                        },
-                      );
-                    }).toList(),
+                child: Scrollbar(
+                  thumbVisibility: true,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: widget.coachUsers.map((user) {
+                        return ListTile(
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('${user.firstName} ${user.lastName}'),
+                              if (widget.selectedOrganizer != null &&
+                                  user.uid == widget.selectedOrganizer!.uid)
+                                const Icon(Icons.check,
+                                    color: ColorPalette.highlight),
+                            ],
+                          ),
+                          onTap: () {
+                            widget.onOrganizerSelected(user);
+                            Navigator.pop(context);
+                          },
+                        );
+                      }).toList(),
+                    ),
                   ),
                 ),
               ),
