@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_rent/models/user_model.dart';
 import 'package:gym_rent/services/firestore/event_service.dart';
+import 'package:gym_rent/views/authentication/profile.dart';
 
 class Attendees extends StatefulWidget {
   const Attendees({super.key});
@@ -58,9 +59,22 @@ class _AttendeesState extends State<Attendees> {
                           .firstName), // Załóżmy, że UserModel ma pole "name"
                       subtitle: Text(user
                           .lastName), // Załóżmy, że UserModel ma pole "email"
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProfilePage(
+                              refresh: _loadFirestoreUsers,
+                            ),
+                            settings: RouteSettings(
+                              arguments: _users[index].uid,
+                            ),
+                          ),
+                        );
+                      },
                     );
                   },
-                ),
+      ),
     );
   }
 }

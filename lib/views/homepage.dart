@@ -17,9 +17,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final FirebaseAuthServices _auth = FirebaseAuthServices();
   late String? _userRole = 'user';
+  late String? _userName = 'Username';
 
-  Future<void> _loadUserRole() async {
+  Future<void> _loadUser() async {
     _userRole = (await _auth.getUserRole())!;
+    _userName = (await _auth.getUserName());
     if (mounted) {
       setState(() {});
     }
@@ -28,7 +30,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _loadUserRole();
+    _loadUser();
   }
 
   IconData _getIconForButton(int index) {
@@ -120,9 +122,7 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   children: [
                                     TextSpan(
-                                      text: FirebaseAuth
-                                          .instance.currentUser?.displayName ??
-                                          'Username',
+                                      text: _userName,
                                       style: const TextStyle(
                                         color: ColorPalette.highlight,
                                         fontWeight: FontWeight.bold,

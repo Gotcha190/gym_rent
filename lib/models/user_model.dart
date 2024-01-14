@@ -3,14 +3,16 @@ class UserModel {
   String firstName;
   String lastName;
   String role;
+  String? phoneNumber;
 
-  UserModel({this.uid,required this.firstName, required this.lastName, this.role = 'user'});
+  UserModel({this.uid,required this.firstName, required this.lastName, this.role = 'user', this.phoneNumber});
 
   // Metoda do konwersji modelu na mapę
   Map<String, dynamic> toMap() {
     return {
       'firstName': firstName,
       'lastName': lastName,
+      'phoneNumber': phoneNumber,
       'role': role,
       'uid': uid,
     };
@@ -20,6 +22,7 @@ class UserModel {
     return {
       'First name': firstName,
       'Last name': lastName,
+      'Phone number': phoneNumber ?? ""
     };
   }
 
@@ -29,6 +32,7 @@ class UserModel {
       uid: map['uid'] ?? '',
       firstName: map['firstName'] ?? '',
       lastName: map['lastName'] ?? '',
+      phoneNumber: map['phoneNumber'] ?? ''
     );
   }
   String getUserId() {

@@ -82,4 +82,24 @@ class FirebaseAuthServices {
 
     return role;
   }
+
+  Future<String?> getUserName() async {
+    String? name;
+
+    // Pobierz aktualnego użytkownika
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      // Pobierz dane użytkownika z Firestore
+      DocumentSnapshot<Map<String, dynamic>> snapshot =
+      await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+
+      // Sprawdź, czy dokument istnieje
+      if (snapshot.exists) {
+        name = snapshot.data()?['firstName'];
+      }
+    }
+
+    return name;
+  }
 }
