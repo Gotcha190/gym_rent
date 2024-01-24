@@ -153,7 +153,7 @@ class EventService {
       print("Error loading upcoming events for user: $e");
     }
   }
-
+  ///TODO: Load users from upcoming and past events and show them like in MyClass
   Future<List<UserModel>> getUsersForCoach(String coachUid) async {
     try {
       List<UserModel> users = [];
@@ -161,7 +161,7 @@ class EventService {
 
       // Load events for the coach within the past year
       final Map<DateTime, List<Event>> coachEvents = {};
-      await loadFirestoreEvents(DateTime.now().subtract(Duration(days: 365)), coachEvents, () {});
+      await loadFirestoreEvents(DateTime.now().subtract(const Duration(days: 365)), coachEvents, () {});
 
       // Get events for the coach within the past year
       final List<Event> upcomingEvents = [];

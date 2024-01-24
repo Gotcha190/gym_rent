@@ -11,7 +11,7 @@ class UserService {
           .get();
 
       return querySnapshot.docs.map((doc) {
-        final data = doc.data() as Map<String, dynamic>;
+        final data = doc.data();
         return UserModel.fromMap(data);
       }).toList();
     } catch (e) {
@@ -29,7 +29,7 @@ class UserService {
           .get();
 
       return querySnapshot.docs.map((doc) {
-        final data = doc.data() as Map<String, dynamic>;
+        final data = doc.data();
         return UserModel.fromMap(data);
       }).toList();
     } catch (e) {

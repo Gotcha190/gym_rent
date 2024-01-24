@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:gym_rent/constants/color_palette.dart';
 import 'package:gym_rent/models/user_model.dart';
+import 'package:gym_rent/views/authentication/profile_page.dart';
 import 'package:sizer/sizer.dart';
 
-Widget buildProfileInfo(UserModel userProfile) {
+Widget buildProfileInfo(UserModel userProfile, userRole) {
+  Map<String, dynamic> fieldsNames = ProfilePage.getFieldsNamesByRole(userProfile, userRole);
+
   return SingleChildScrollView(
     child: Column(
       children: List.generate(
-        userProfile.getFieldsNames().length,
-        (index) {
-          String fieldName = userProfile.getFieldsNames().keys.elementAt(index);
+        fieldsNames.length,
+            (index) {
+          String fieldName = fieldsNames.keys.elementAt(index);
           return Column(
             children: [
               ListTile(
@@ -21,7 +24,7 @@ Widget buildProfileInfo(UserModel userProfile) {
                   ),
                 ),
                 subtitle: Text(
-                  userProfile.getFieldsNames()[fieldName] ?? '',
+                  fieldsNames[fieldName]?.toString() ?? '',
                   style: TextStyle(
                     fontSize: 18.sp,
                     color: ColorPalette.highlight,

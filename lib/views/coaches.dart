@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gym_rent/models/user_model.dart';
 import 'package:gym_rent/services/firestore/user_service.dart';
-import 'package:gym_rent/views/authentication/profile.dart';
+import 'package:gym_rent/views/authentication/profile_page.dart';
 
 class Coaches extends StatefulWidget {
   const Coaches({super.key});

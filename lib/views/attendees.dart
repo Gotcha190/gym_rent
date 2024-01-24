@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_rent/models/user_model.dart';
 import 'package:gym_rent/services/firestore/event_service.dart';
-import 'package:gym_rent/views/authentication/profile.dart';
+import 'package:gym_rent/views/authentication/profile_page.dart';
 
 class Attendees extends StatefulWidget {
   const Attendees({super.key});
@@ -56,9 +56,9 @@ class _AttendeesState extends State<Attendees> {
                     UserModel user = _users[index];
                     return ListTile(
                       title: Text(user
-                          .firstName), // Załóżmy, że UserModel ma pole "name"
+                          .firstName),
                       subtitle: Text(user
-                          .lastName), // Załóżmy, że UserModel ma pole "email"
+                          .lastName),
                       onTap: () {
                         Navigator.push(
                           context,
