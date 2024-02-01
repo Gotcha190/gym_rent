@@ -37,14 +37,12 @@ class _MyClassesState extends State<MyClasses>
 
   void _loadFirestoreEvents() async {
     final userUid = FirebaseAuth.instance.currentUser?.uid;
-    print(userUid);
-    print(_userRole);
     if (_userRole == 'user') {
       await _eventService.getUpcomingEventsForUser(userUid!, _upcomingEvents,
           () {
         setState(() {});
       });
-      await _eventService.getPastEventsForUser(userUid!, _pastEvents, () {
+      await _eventService.getPastEventsForUser(userUid, _pastEvents, () {
         setState(() {});
       });
     } else {
@@ -52,7 +50,7 @@ class _MyClassesState extends State<MyClasses>
           .getUpcomingEventsForOrganizer(userUid!, _upcomingEvents, () {
         setState(() {});
       });
-      await _eventService.getPastEventsForOrganizer(userUid!, _pastEvents, () {
+      await _eventService.getPastEventsForOrganizer(userUid, _pastEvents, () {
         setState(() {});
       });
     }

@@ -5,7 +5,7 @@ import 'package:gym_rent/models/events_model.dart';
 class DeleteDialog extends StatelessWidget {
   final Event event;
 
-  const DeleteDialog({required this.event});
+  const DeleteDialog({super.key, required this.event});
 
   @override
   Widget build(BuildContext context) {

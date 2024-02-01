@@ -55,7 +55,7 @@ class _ScheduleState extends State<Schedule> {
 
   void _loadFirestoreEvents() async {
     await _eventService.loadFirestoreEvents(
-        _focusedDay, _events, () => setState(() {}));
+        _focusedDay, _events, setStateCallback: () => setState(() {}));
   }
 
   Future<void> _loadUserRole() async {

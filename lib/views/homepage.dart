@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:sizer/sizer.dart';
@@ -8,7 +7,7 @@ import 'package:gym_rent/services/firebase_auth/firebase_auth_services.dart';
 
 class HomePage extends StatefulWidget {
 
-  HomePage({super.key});
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -49,6 +48,9 @@ class _HomePageState extends State<HomePage> {
     if (_userRole == 'user' && index == 1) {
       return 'Coaches';
     }
+    if (_userRole == 'admin' && index == 1) {
+      return 'All Users';
+    }
     final texts = ['Schedule', 'Attendees', 'Logout', 'My Classes', 'Settings'];
 
     return texts[index];
@@ -57,6 +59,9 @@ class _HomePageState extends State<HomePage> {
   String _getRouteForButton(int index) {
     if (_userRole == 'user' && index == 1) {
       return '/coaches';
+    }
+    if (_userRole == 'admin' && index == 1) {
+      return '/all_users';
     }
     final routes = ['/schedule', '/attendees', '/', '/my_classes', '/settings'];
 

@@ -111,7 +111,6 @@ class _ProfilePageState extends State<ProfilePage> {
           for (var field in _userProfile.toMap().keys) {
             _controllers.add(TextEditingController(
                 text: _userProfile.toMap()[field]?.toString() ?? ''));
-            print(_userProfile.toMap()[field]?.toString());
           }
         });
       }
@@ -127,29 +126,31 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          _isUserViewingOwnProfile
-              ? Container()
-              : AppBar(title: const Text('Profile Page')),
-          _isLoading
-              ? const Center(
-                  child: CircularProgressIndicator(),
-                )
-              : Column(
-                  children: [
-                    buildProfileInfo(_userProfile, _userRole),
-                    _isAbleToEdit
-                        ? editProfileDialog.showButton(
-                            context: context,
-                            userProfile: _userProfile,
-                            updateProfile: _updateProfile,
-                            controllers: _controllers,
-                          )
-                        : Container(),
-                  ],
-                ),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            _isUserViewingOwnProfile
+                ? Container()
+                : AppBar(title: const Text('Profile Page')),
+            _isLoading
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Column(
+                    children: [
+                      buildProfileInfo(_userProfile, _userRole),
+                      _isAbleToEdit
+                          ? editProfileDialog.showButton(
+                              context: context,
+                              userProfile: _userProfile,
+                              updateProfile: _updateProfile,
+                              controllers: _controllers,
+                            )
+                          : Container(),
+                    ],
+                  ),
+          ],
+        ),
       ),
     );
   }

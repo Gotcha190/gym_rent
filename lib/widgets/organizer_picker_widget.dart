@@ -7,7 +7,7 @@ class OrganizerPickerWidget extends StatefulWidget {
   final UserModel? selectedOrganizer;
   final Function(UserModel) onOrganizerSelected;
 
-  OrganizerPickerWidget({
+  const OrganizerPickerWidget({super.key,
     required this.coachUsers,
     required this.selectedOrganizer,
     required this.onOrganizerSelected,

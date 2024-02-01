@@ -149,7 +149,7 @@ class _SignUpPageState extends State<SignUpPage> {
     if (user != null) {
       // Wait for the user creation process to complete
       await user.reload();
-      user = await FirebaseAuth.instance.currentUser;
+      user = FirebaseAuth.instance.currentUser;
 
       // Utwórz obiekt UserProfile z pobranym uid
       UserModel userProfile = UserModel(

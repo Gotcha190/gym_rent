@@ -7,7 +7,7 @@ class DatePickerWidget extends StatefulWidget {
   final DateTime selectedDateTime;
   final Function(DateTime) onDateTimeChanged;
 
-  DatePickerWidget({required this.selectedDateTime, required this.onDateTimeChanged, required this.firstDate, required this.lastDate});
+  const DatePickerWidget({super.key, required this.selectedDateTime, required this.onDateTimeChanged, required this.firstDate, required this.lastDate});
 
   @override
   _DatePickerWidgetState createState() => _DatePickerWidgetState();

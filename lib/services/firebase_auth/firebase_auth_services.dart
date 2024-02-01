@@ -39,6 +39,14 @@ class FirebaseAuthServices {
     return null;
   }
 
+  Future<void> resetPassword(String email) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+    } catch (e) {
+      print('Błąd resetowania hasła: $e');
+    }
+  }
+
   Future<void> updateProfile(UserModel userProfile) async {
     try {
       User? user = _auth.currentUser;

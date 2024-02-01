@@ -1,7 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_rent/models/user_model.dart';
 import 'package:sizer/sizer.dart';
-
 import 'package:gym_rent/constants/color_palette.dart';
 
 class EditProfileDialog {
@@ -22,17 +22,37 @@ class EditProfileDialog {
               children: List.generate(
                 controllers.length,
                     (index) {
-                  if (index < userProfile.getAdminFieldsNames().length) {
-                    String fieldName =
-                    userProfile.getAdminFieldsNames().keys.elementAt(index);
-                    return TextField(
-                      controller: controllers[index],
-                      decoration: InputDecoration(labelText: fieldName),
-                    );
-                  } else {
-                    return Container();
-                  }
-                },
+                      if (index < userProfile.getAdminFieldsNames().length) {
+                        String fieldName =
+                        userProfile.getAdminFieldsNames().keys.elementAt(index);
+
+                        // Check if the field is 'role'
+                        if (fieldName == 'role') {
+                          return DropdownButtonFormField<UserRole>(
+                            value: userProfile.parseUserRole(userProfile.role),
+                            items: UserRole.values.map((UserRole value) {
+                              return DropdownMenuItem<UserRole>(
+                                value: value,
+                                child: Text(describeEnum(value)),
+                              );
+                            }).toList(),
+                            onChanged: (UserRole? newValue) {
+                              if (newValue != null) {
+                                controllers[index].text = describeEnum(newValue);
+                              }
+                            },
+                            decoration: InputDecoration(labelText: fieldName),
+                          );
+                        }  else {
+                          return TextField(
+                            controller: controllers[index],
+                            decoration: InputDecoration(labelText: fieldName),
+                          );
+                        }
+                      } else {
+                        return Container();
+                      }
+                    },
               ),
             ),
             actions: [

@@ -1,3 +1,9 @@
+enum UserRole {
+  user,
+  coach,
+  admin,
+}
+
 class UserModel {
   String? uid;
   String firstName;
@@ -29,6 +35,15 @@ class UserModel {
     );
   }
 
+  static UserModel loading() {
+    return UserModel(
+      uid: 'loading',
+      firstName: 'Loading',
+      lastName: 'User',
+      role: '',
+    );
+  }
+
   Map<String, dynamic> getUserFieldsNames() {
     return {
       'First name': firstName,
@@ -56,6 +71,20 @@ class UserModel {
   String getUserId() {
     return uid ?? '';
   }
+
+  UserRole parseUserRole(String role) {
+    switch (role.toLowerCase()) {
+      case 'user':
+        return UserRole.user;
+      case 'coach':
+        return UserRole.coach;
+      case 'admin':
+        return UserRole.admin;
+      default:
+        return UserRole.user; // Domyślna wartość, możesz dostosować do własnych potrzeb
+    }
+  }
+
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;

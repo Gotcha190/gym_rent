@@ -5,11 +5,13 @@ import 'package:gym_rent/services/firestore/user_service.dart';
 
 class EventService {
   Future<void> loadFirestoreEvents(DateTime focusedDay,
-      Map<DateTime, List<Event>> events,
-      Function setStateCallback,) async {
-    final firstDay = DateTime(focusedDay.year, focusedDay.month, 1);
-    final lastDay = DateTime(focusedDay.year, focusedDay.month + 1, 0);
-
+      Map<DateTime, List<Event>> events,{
+        DateTime? fromDate,
+        DateTime? toDate,
+        Function? setStateCallback,
+      }) async {
+    final firstDay = fromDate ?? DateTime(focusedDay.year, focusedDay.month, 1);
+    final lastDay = toDate ?? DateTime(focusedDay.year, focusedDay.month + 1, 0);
     try {
       final snap = await FirebaseFirestore.instance
           .collection('calendar')
@@ -31,7 +33,9 @@ class EventService {
         events[day]!.add(event);
       }
 
-      setStateCallback();
+      if (setStateCallback != null) {
+        setStateCallback();
+      }
     } catch (e) {
       print("Error loading Firestore events: $e");
     }
@@ -72,7 +76,7 @@ class EventService {
 
   Future<void> getUpcomingEventsForOrganizer(String uid,
       List<Event> events,
-      Function setStateCallback,) async {
+      [Function? setStateCallback]) async {
     try {
       final now = DateTime.now();
       final snap = await FirebaseFirestore.instance
@@ -92,7 +96,7 @@ class EventService {
         events.add(event);
       }
 
-      setStateCallback();
+      setStateCallback!();
     } catch (e) {
       print("Error loading events for organizer: $e");
     }
@@ -153,25 +157,30 @@ class EventService {
       print("Error loading upcoming events for user: $e");
     }
   }
-  ///TODO: Load users from upcoming and past events and show them like in MyClass
+
   Future<List<UserModel>> getUsersForCoach(String coachUid) async {
     try {
       List<UserModel> users = [];
       Set<String> participantUids = {};
 
-      // Load events for the coach within the past year
-      final Map<DateTime, List<Event>> coachEvents = {};
-      await loadFirestoreEvents(DateTime.now().subtract(const Duration(days: 365)), coachEvents, () {});
+      // Oblicz dynamicznie daty początkowej i końcowej dla wydarzeń
+      DateTime fromDate = DateTime.now().subtract(const Duration(days: 365));
+      DateTime toDate = DateTime.now().add(const Duration(days: 365));
 
-      // Get events for the coach within the past year
-      final List<Event> upcomingEvents = [];
-      await getUpcomingEventsForOrganizer(coachUid, upcomingEvents, () {});
+      // Load events for the coach within the specified date range
+      late final Map<DateTime, List<Event>> events = {};
+      await loadFirestoreEvents(
+        DateTime.now(),
+        events,
+        fromDate: fromDate,
+        toDate: toDate,
+      );
 
-      // Iterate through each event and extract participants' UIDs
-      for (var event in upcomingEvents) {
-        if (event.participants != null) {
-          for (var participantUid in event.participants!) {
-            participantUids.add(participantUid);
+      // Extract participants' UIDs from events
+      for (var eventList in events.values) {
+        for (var event in eventList) {
+          if (event.participants != null) {
+            participantUids.addAll(event.participants!);
           }
         }
       }

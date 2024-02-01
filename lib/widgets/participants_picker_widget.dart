@@ -7,7 +7,7 @@ class ParticipantPickerWidget extends StatefulWidget {
   final List<UserModel> selectedParticipants;
   final Function(List<UserModel>) onParticipantsSelected;
 
-  ParticipantPickerWidget({
+  const ParticipantPickerWidget({super.key,
     required this.users,
     required this.selectedParticipants,
     required this.onParticipantsSelected,

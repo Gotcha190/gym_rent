@@ -50,6 +50,7 @@ class _LoginPageState extends State<LoginPage> {
           SizedBox(height: 5.h),
           TextField(
             controller: _emailController,
+            keyboardType: TextInputType.emailAddress,
             decoration: const InputDecoration(
               labelText: "Email",
               prefixIcon: Icon(Icons.mail),

@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_rent/constants/color_palette.dart';
+import 'package:gym_rent/views/all_users.dart';
 import 'package:gym_rent/views/attendees.dart';
 import 'package:gym_rent/views/coaches.dart';
 import 'package:gym_rent/views/my_classes.dart';
@@ -13,9 +14,10 @@ import 'package:gym_rent/services/firebase_options.dart';
 
 void main() async {
   // Zainicjuj Firebase przed uruchomieniem aplikacji
-  WidgetsFlutterBinding.ensureInitialized(); // To jest ważne dla Firebase
+  WidgetsFlutterBinding.ensureInitialized();
+  await DefaultFirebaseOptions.init(); // To jest ważne dla Firebase
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+    options: await DefaultFirebaseOptions.currentPlatform(),
     name: 'GymRent',
   );
   runApp(const MyApp());
@@ -43,19 +45,32 @@ class MyApp extends StatelessWidget {
           ),
           routes: {
             '/': (ctx) => const AuthenticationScreen(),
-            '/home': (ctx) => HomePage(),
+            '/home': (ctx) => const HomePage(),
             '/schedule': (ctx) => const Schedule(),
             '/my_classes': (ctx) => const MyClasses(),
             '/attendees': (ctx) => const Attendees(),
             '/coaches': (ctx) => const Coaches(),
+            '/all_users': (ctx) => const AllUsers(),
             '/settings': (ctx) => const Settings(),
           },
         );
       },
     );
   }
+
   MaterialColor createMaterialColor(Color color) {
-    List<int> strengths = <int>[50, 100, 200, 300, 400, 500, 600, 700, 800, 900];
+    List<int> strengths = <int>[
+      50,
+      100,
+      200,
+      300,
+      400,
+      500,
+      600,
+      700,
+      800,
+      900
+    ];
     Map<int, Color> swatch = <int, Color>{};
     final int r = color.red, g = color.green, b = color.blue;
 

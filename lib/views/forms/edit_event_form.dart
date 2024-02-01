@@ -18,7 +18,7 @@ class EditEventForm extends StatefulWidget {
   final UserModel? selectedOrganizer;
   final List<UserModel> selectedParticipants;
 
-  EditEventForm({
+  const EditEventForm({
     Key? key,
     required this.firstDate,
     required this.lastDate,
